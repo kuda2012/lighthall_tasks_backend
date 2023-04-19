@@ -1,15 +1,18 @@
 const express = require("express");
 const cors = require("cors");
-const { PORT } = require("./config");
 const app = express();
-
+const { DB_URI } = require("./config");
+const { db } = require("./db");
 const ExpressError = require("./expressError");
 app.use(cors());
 app.use(express.json());
 
+const { signupOrLogin } = require("./controllers/controller");
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
+
+app.post("/signup", signupOrLogin);
 
 app.use(function (req, res, next) {
   const err = new Error("Not Found");
