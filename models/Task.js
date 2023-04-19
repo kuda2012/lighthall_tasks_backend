@@ -34,7 +34,7 @@ class Task {
     const { user_id, title, description, status, due_date } = body;
     const createTask = await db.query(
       `INSERT INTO tasks (user_id, title, description, status, due_date)
-       VALUES ($1, $2, $3, $4, $5) RETURNING id as task_id, user_id`,
+       VALUES ($1, $2, $3, $4, $5) RETURNING id as task_id, user_id, title, description, status, due_date`,
       [user_id, title, description, status, due_date]
     );
     return createTask.rows[0];
@@ -47,7 +47,7 @@ class Task {
          description=$3,
          status=$4,
          due_date=$5
-       WHERE id =$1 RETURNING id as task_id, user_id`,
+       WHERE id =$1 RETURNING id as task_id, user_id, title, description, status, due_date`,
       [task_id, title, description, status, due_date]
     );
     return updateTask.rows[0];

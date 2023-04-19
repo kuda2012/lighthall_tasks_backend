@@ -25,10 +25,11 @@ const createOrSaveTask = async (req, res, next) => {
     let data;
     if (req.body.task_id) {
       data = await Task.update(req.body);
+      res.json({ message: "Your task was updated", data });
     } else {
       data = await Task.create(req.body);
+      res.json({ message: "Your task was created", data });
     }
-    res.json(data);
   } catch (error) {
     next(error);
   }
