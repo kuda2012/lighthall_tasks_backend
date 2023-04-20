@@ -52,6 +52,14 @@ class Task {
     );
     return updateTask.rows[0];
   }
+  static async deleteTask(task_id) {
+    const getTasks = await db.query(
+      `DELETE FROM tasks
+      WHERE id=$1`,
+      [task_id]
+    );
+    return getTasks.rows[0];
+  }
 }
 
 module.exports = Task;

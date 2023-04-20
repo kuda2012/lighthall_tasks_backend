@@ -12,12 +12,14 @@ const {
   getAllTasks,
   createOrSaveTask,
   getTask,
+  deleteTask,
 } = require("./controllers/controller");
 
 app.post("/signup", signupOrLogin);
 app.post("/save", createOrSaveTask);
 app.get("/tasks", getAllTasks);
 app.get("/tasks/:task_id", getTask);
+app.delete("/tasks/:task_id", deleteTask);
 
 app.use(function (req, res, next) {
   const err = new Error("Not Found");

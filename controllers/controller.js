@@ -55,5 +55,19 @@ const getTask = async (req, res, next) => {
     next(error);
   }
 };
+const deleteTask = async (req, res, next) => {
+  try {
+    let data = await Task.deleteTask(req.params.task_id);
+    res.json({ message: "Your task has been deleted" });
+  } catch (error) {
+    next(error);
+  }
+};
 
-module.exports = { signupOrLogin, createOrSaveTask, getAllTasks, getTask };
+module.exports = {
+  signupOrLogin,
+  createOrSaveTask,
+  getAllTasks,
+  getTask,
+  deleteTask,
+};
