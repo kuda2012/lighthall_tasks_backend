@@ -55,10 +55,10 @@ const getTask = async (req, res, next) => {
     next(error);
   }
 };
-const deleteTask = async (req, res, next) => {
+const deleteTasks = async (req, res, next) => {
   try {
-    let data = await Task.deleteTask(req.params.task_id);
-    res.json({ message: "Your task has been deleted" });
+    let data = await Task.deleteTasks(req.body);
+    res.json({ message: "Your task(s) have been deleted" });
   } catch (error) {
     next(error);
   }
@@ -69,5 +69,5 @@ module.exports = {
   createOrSaveTask,
   getAllTasks,
   getTask,
-  deleteTask,
+  deleteTasks,
 };

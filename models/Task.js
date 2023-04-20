@@ -16,6 +16,9 @@ class Task {
       orderString = orderString.concat("status asc");
     }
     orderString = orderString.replace(/,\s*$/, "");
+    if (!orderString) {
+      orderString = "title";
+    }
     const getTasks = await db.query(
       `SELECT id, title, due_date, status FROM tasks WHERE user_id=$1
       ORDER BY ${orderString}`,
@@ -52,13 +55,16 @@ class Task {
     );
     return updateTask.rows[0];
   }
-  static async deleteTask(task_id) {
-    const getTasks = await db.query(
-      `DELETE FROM tasks
-      WHERE id=$1`,
-      [task_id]
-    );
-    return getTasks.rows[0];
+  static async deleteTasks(body) {
+    const { task_ids } = body;
+    for (let task_id of task_ids) {
+      await db.query(
+        `DELETE FROM tasks
+      WHERE id =$1`,
+        [task_id]
+      );
+    }
+    return "Job is done";
   }
 }
 
