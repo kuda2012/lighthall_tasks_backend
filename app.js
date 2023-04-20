@@ -16,7 +16,7 @@ const {
 } = require("./controllers/controller");
 
 app.post("/signup", signupOrLogin);
-app.post("tasks/save", createOrSaveTask);
+app.post("/tasks/save", createOrSaveTask);
 app.get("/tasks", getAllTasks);
 app.get("/tasks/:task_id", getTask);
 app.delete("/tasks/delete", deleteTasks);
