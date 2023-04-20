@@ -3,6 +3,7 @@ const { v4: uuid } = require("uuid");
 const ExpressError = require("../expressError");
 const jwt = require("jsonwebtoken");
 class User {
+
   static async create(email) {
     const newUser = await db.query(
       `INSERT INTO users (email)
