@@ -20,7 +20,7 @@ class Task {
       orderString = "title";
     }
     const getTasks = await db.query(
-      `SELECT id, title, due_date, status FROM tasks WHERE user_id=$1
+      `SELECT id, title, due_date, description, status FROM tasks WHERE user_id=$1
       ORDER BY ${orderString}`,
       [user_id]
     );
