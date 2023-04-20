@@ -6,9 +6,14 @@ const signupOrLogin = async (req, res, next) => {
     let user = await User.getUser(req.body.email);
     if (user) {
       res.json({ user });
-    } else {
+    } else if (req.body.confirm_signup) {
       user = await User.create(req.body.email);
       res.json({ user });
+    } else {
+      res.json({
+        message:
+          "This user does not exist, would you like to create an account with this email?",
+      });
     }
   } catch (error) {
     if (error.code === "23505") {

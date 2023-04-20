@@ -13,14 +13,12 @@ const {
   createOrSaveTask,
   getTask,
 } = require("./controllers/controller");
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
 
 app.post("/signup", signupOrLogin);
 app.post("/save", createOrSaveTask);
 app.get("/tasks", getAllTasks);
 app.get("/tasks/:task_id", getTask);
+
 app.use(function (req, res, next) {
   const err = new Error("Not Found");
   err.status = 404;
