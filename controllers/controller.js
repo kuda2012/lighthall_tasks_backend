@@ -1,5 +1,6 @@
 let User = require("../models/User");
 let Task = require("../models/Task");
+let axios = require("axios");
 
 const signupOrLogin = async (req, res, next) => {
   try {
@@ -41,7 +42,7 @@ const createOrSaveTask = async (req, res, next) => {
 };
 const getAllTasks = async (req, res, next) => {
   try {
-    let data = await Task.getAllTasks(req.body);
+    let data = await Task.getAllTasks(req.query);
     res.json({ data });
   } catch (error) {
     next(error);

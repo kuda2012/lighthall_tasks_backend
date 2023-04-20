@@ -3,8 +3,8 @@ const { v4: uuid } = require("uuid");
 const ExpressError = require("../expressError");
 const jwt = require("jsonwebtoken");
 class Task {
-  static async getAllTasks(body) {
-    const { user_id, title, due_date, status } = body;
+  static async getAllTasks(query) {
+    const { user_id, title, due_date, status } = query;
     let orderString = "";
     if (title) {
       orderString = orderString.concat("title, ");
