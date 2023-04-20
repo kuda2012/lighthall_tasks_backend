@@ -1,6 +1,5 @@
 let User = require("../models/User");
 let Task = require("../models/Task");
-let axios = require("axios");
 
 const signupOrLogin = async (req, res, next) => {
   try {
