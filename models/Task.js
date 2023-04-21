@@ -31,14 +31,16 @@ class Task {
     return getTasks.rows;
   }
   static async getTask(task_id) {
-    const getTasks = await db.query(
+    const getTask = await db.query(
       `SELECT id, title, to_char(due_date, 'mm-dd-yyyy') as due_date, status, description FROM tasks WHERE id=$1`,
       [task_id]
     );
-    return {
-      ...getTasks.rows[0],
-      status: statusTranslatorNumberToWord(getTasks.rows[0].status),
-    };
+    return getTask.rows[0]
+      ? {
+          ...getTask.rows[0],
+          status: statusTranslatorNumberToWord(getTask.rows[0]?.status),
+        }
+      : {};
   }
   static async create(body) {
     let { user_id, title, description, status, due_date } = body;
