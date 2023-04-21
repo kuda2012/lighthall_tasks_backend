@@ -1,7 +1,8 @@
 const db = require("../db");
-const { v4: uuid } = require("uuid");
-const ExpressError = require("../expressError");
-const jwt = require("jsonwebtoken");
+const {
+  statusTranslatorWordToNumber,
+  statusTranslatorNumberToWord,
+} = require("../helpers/statusTranslators");
 class Task {
   static async getAllTasks(query) {
     const { user_id, title, due_date, status } = query;
@@ -13,7 +14,7 @@ class Task {
       orderString = orderString.concat("due_date, ");
     }
     if (status) {
-      orderString = orderString.concat("status asc");
+      orderString = orderString.concat("status");
     }
     orderString = orderString.replace(/,\s*$/, "");
     if (!orderString) {
@@ -24,6 +25,9 @@ class Task {
       ORDER BY ${orderString}`,
       [user_id]
     );
+    for (let task of getTasks.rows) {
+      task.status = statusTranslatorNumberToWord(task.status);
+    }
     return getTasks.rows;
   }
   static async getTask(task_id) {
@@ -31,10 +35,14 @@ class Task {
       `SELECT id, title, to_char(due_date, 'mm-dd-yyyy') as due_date, status, description FROM tasks WHERE id=$1`,
       [task_id]
     );
-    return getTasks.rows[0];
+    return {
+      ...getTasks.rows[0],
+      status: statusTranslatorNumberToWord(getTasks.rows[0].status),
+    };
   }
   static async create(body) {
-    const { user_id, title, description, status, due_date } = body;
+    let { user_id, title, description, status, due_date } = body;
+    status = statusTranslatorWordToNumber(status);
     const createTask = await db.query(
       `INSERT INTO tasks (user_id, title, description, status, due_date)
        VALUES ($1, $2, $3, $4, $5) RETURNING id as task_id, user_id, title, description, status, due_date`,
@@ -43,7 +51,8 @@ class Task {
     return createTask.rows[0];
   }
   static async update(body) {
-    const { title, description, status, due_date, task_id } = body;
+    let { title, description, status, due_date, task_id } = body;
+    status = statusTranslatorWordToNumber(status);
     const updateTask = await db.query(
       `UPDATE tasks 
          SET title=$2, 
