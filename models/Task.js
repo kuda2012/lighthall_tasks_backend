@@ -20,7 +20,7 @@ class Task {
       orderString = "title";
     }
     const getTasks = await db.query(
-      `SELECT id, title, due_date, description, status FROM tasks WHERE user_id=$1
+      `SELECT id, title, to_char(due_date, 'mm-dd-yyyy') as due_date, description, status FROM tasks WHERE user_id=$1
       ORDER BY ${orderString}`,
       [user_id]
     );
@@ -28,7 +28,7 @@ class Task {
   }
   static async getTask(task_id) {
     const getTasks = await db.query(
-      `SELECT id, title, due_date, status, description FROM tasks WHERE id=$1`,
+      `SELECT id, title, to_char(due_date, 'mm-dd-yyyy') as due_date, status, description FROM tasks WHERE id=$1`,
       [task_id]
     );
     return getTasks.rows[0];
