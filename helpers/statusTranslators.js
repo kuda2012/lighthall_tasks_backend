@@ -15,7 +15,7 @@ function statusTranslatorNumberToWord(status) {
   } else if (status === "1") {
     status = "in progress";
   } else {
-    status = "done";
+    status = "Complete";
   }
   return status;
 }
